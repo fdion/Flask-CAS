@@ -125,9 +125,9 @@ def validate(ticket):
         attributes = xml_from_dict.get("cas:attributes", {})
 
         if "cas:memberOf" in attributes:
-            attributes["cas:memberOf"] = attributes["cas:memberOf"].lstrip('[').rstrip(']').split(',')
+            attributes["cas:memberOf"] = [item.lstrip('[').rstrip(']').split(',') for item in attributes["cas:memberOf"]]
             for group_number in range(0, len(attributes['cas:memberOf'])):
-                attributes['cas:memberOf'][group_number] = attributes['cas:memberOf'][group_number].lstrip(' ').rstrip(' ')
+                attributes['cas:memberOf'][group_number] = [item.lstrip('[').rstrip(']').split(',') for item in attributes['cas:memberOf'][group_number]]
 
         flask.session[cas_username_session_key] = username
         flask.session[cas_attributes_session_key] = attributes
